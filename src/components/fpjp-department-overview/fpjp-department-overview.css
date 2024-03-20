@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  max-width: 300px;
+  --md-list-container-color: #f4fbfa;
+  /* --md-list-item-label-text-font: system-ui;
+  --md-list-item-supporting-text-font: system-ui;
+  --md-list-item-trailing-supporting-text-font: system-ui; */
+}
