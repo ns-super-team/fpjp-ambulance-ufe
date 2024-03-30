@@ -8,9 +8,10 @@ import { Component, Host, h, State, Prop } from '@stencil/core';
 export class FpjpDepartment {
   @State() info: any = [];
   @Prop() depId: string;
+  @Prop() basePath: string;
 
   private async getDepartmentInfo(): Promise<any> {
-    // FIX:
+    // TODO fix:
     // - resets id when refreshed
     // - maybe query the name/path which is in the url
     // console.log(`http://localhost:8000/department/${this.depId}`)
@@ -53,7 +54,7 @@ export class FpjpDepartment {
           </div>
         ))} 
         <md-filled-tonal-button class="back-button"
-          onClick={() => window.navigation.navigate(new URL(document.baseURI))}>
+          onClick={() => window.navigation.navigate(new URL(this.basePath, document.baseURI))}>
             <md-icon class="icon" slot="icon">arrow_back</md-icon>
           Späť
         </md-filled-tonal-button>

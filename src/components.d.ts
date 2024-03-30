@@ -10,6 +10,7 @@ export namespace Components {
         "basePath": string;
     }
     interface FpjpDepartment {
+        "basePath": string;
         "depId": string;
     }
     interface FpjpDepartmentOverview {
@@ -81,6 +82,7 @@ declare namespace LocalJSX {
         "basePath"?: string;
     }
     interface FpjpDepartment {
+        "basePath"?: string;
         "depId"?: string;
     }
     interface FpjpDepartmentOverview {

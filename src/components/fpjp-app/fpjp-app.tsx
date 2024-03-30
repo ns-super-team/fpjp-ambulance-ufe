@@ -67,7 +67,7 @@ export class FpjpApp {
           </fpjp-department-overview>
         )
       } else if (component === "equipment") {
-        return <fpjp-department dep-id={this.entryId}></fpjp-department>
+        return <fpjp-department base-path={this.basePath} dep-id={this.entryId}></fpjp-department>
       } else {
         return <h1 class="not-found">404 not found 🦧</h1>
       }
