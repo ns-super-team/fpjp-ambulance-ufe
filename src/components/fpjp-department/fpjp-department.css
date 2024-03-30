@@ -1,4 +1,5 @@
 :host {
+  display: block;
   --md-list-container-color: #c4dcf4;
   --md-list-item-label-text-color: #252727;
   min-width: 50%;
@@ -21,4 +22,21 @@ md-list-item {
 md-list-item:hover {
   background-color: #e7f7f7;
   border-radius: 2px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.back-button {
+  margin-top: 1em;
+  align-self: flex-end;
+  --md-filled-tonal-button-container-color: #5aabfc;
+  /* --md-filled-tonal-button-label-text-color: #ffff; */
+  --md-hover-label-text-color: #ffff;
+}
+
+.icon {
+  /* color: #ffff */
 }

@@ -6,6 +6,12 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface FpjpApp {
+        "basePath": string;
+    }
+    interface FpjpDepartment {
+        "depId": string;
+    }
     interface FpjpDepartmentOverview {
     }
     interface MyComponent {
@@ -23,8 +29,35 @@ export namespace Components {
         "middle": string;
     }
 }
+export interface FpjpDepartmentOverviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFpjpDepartmentOverviewElement;
+}
 declare global {
+    interface HTMLFpjpAppElement extends Components.FpjpApp, HTMLStencilElement {
+    }
+    var HTMLFpjpAppElement: {
+        prototype: HTMLFpjpAppElement;
+        new (): HTMLFpjpAppElement;
+    };
+    interface HTMLFpjpDepartmentElement extends Components.FpjpDepartment, HTMLStencilElement {
+    }
+    var HTMLFpjpDepartmentElement: {
+        prototype: HTMLFpjpDepartmentElement;
+        new (): HTMLFpjpDepartmentElement;
+    };
+    interface HTMLFpjpDepartmentOverviewElementEventMap {
+        "entry-clicked": any;
+    }
     interface HTMLFpjpDepartmentOverviewElement extends Components.FpjpDepartmentOverview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFpjpDepartmentOverviewElementEventMap>(type: K, listener: (this: HTMLFpjpDepartmentOverviewElement, ev: FpjpDepartmentOverviewCustomEvent<HTMLFpjpDepartmentOverviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFpjpDepartmentOverviewElementEventMap>(type: K, listener: (this: HTMLFpjpDepartmentOverviewElement, ev: FpjpDepartmentOverviewCustomEvent<HTMLFpjpDepartmentOverviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLFpjpDepartmentOverviewElement: {
         prototype: HTMLFpjpDepartmentOverviewElement;
@@ -37,12 +70,21 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "fpjp-app": HTMLFpjpAppElement;
+        "fpjp-department": HTMLFpjpDepartmentElement;
         "fpjp-department-overview": HTMLFpjpDepartmentOverviewElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface FpjpApp {
+        "basePath"?: string;
+    }
+    interface FpjpDepartment {
+        "depId"?: string;
+    }
     interface FpjpDepartmentOverview {
+        "onEntry-clicked"?: (event: FpjpDepartmentOverviewCustomEvent<any>) => void;
     }
     interface MyComponent {
         /**
@@ -59,6 +101,8 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
+        "fpjp-app": FpjpApp;
+        "fpjp-department": FpjpDepartment;
         "fpjp-department-overview": FpjpDepartmentOverview;
         "my-component": MyComponent;
     }
@@ -67,6 +111,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "fpjp-app": LocalJSX.FpjpApp & JSXBase.HTMLAttributes<HTMLFpjpAppElement>;
+            "fpjp-department": LocalJSX.FpjpDepartment & JSXBase.HTMLAttributes<HTMLFpjpDepartmentElement>;
             "fpjp-department-overview": LocalJSX.FpjpDepartmentOverview & JSXBase.HTMLAttributes<HTMLFpjpDepartmentOverviewElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
