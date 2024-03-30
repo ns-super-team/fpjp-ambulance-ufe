@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter, State } from '@stencil/core';
+import { Component, h, Event, EventEmitter, State } from '@stencil/core';
 
 type Department = {
   name: string,
