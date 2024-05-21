@@ -24,7 +24,7 @@ export class FpjpApp {
       }
     }
     
-    console.log(`basePath: ${this.basePath}, baseUri: ${baseUri}, relativePath: ${this.relativePath}`) 
+    console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`) 
 
     window.navigation?.addEventListener("navigate", (ev: Event) => {
       if ((ev as any).canIntercept) { (ev as any).intercept(); }
@@ -33,26 +33,34 @@ export class FpjpApp {
     });
     
     toRelative(location.pathname)
-    console.log(`basePath: ${this.basePath}, baseUri: ${baseUri}, relativePath: ${this.relativePath}`)
+    console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`)
   }
 
   render() {
     let component = ""
 
-    if (document.URL.endsWith(this.basePath)) {
+    const navigate = (path: string) => {
+      const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
+      console.log(absolute)
+      window.navigation.navigate(absolute)
+    }
+  
+    if (document.URL.endsWith(window.location.host + "/")) {
+      // component = "home"
+      component = "overview"
+    }
+
+    // const urlWithoutTrailingSlash = document.URL.replace(/\/$/, "");
+    // if (urlWithoutTrailingSlash + '/' === document.baseURI) {
+    //   component = "overview";
+    // }
+
+    if (document.URL.endsWith(this.basePath) || document.URL.endsWith(this.basePath.slice(0, -1))) {
       component = "overview";
     }
     
     if (this.relativePath.startsWith("department/")) {
       component = "equipment";
-      // entryId = this.relativePath.split("/")[1]
-      // console.log(`entry-id: ${this.entryId}`)
-    }
-    
-    const navigate = (path: string) => {
-      const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
-      console.log(absolute)
-      window.navigation.navigate(absolute)
     }
     
     // console.log(`element: ${element}`)
@@ -68,6 +76,8 @@ export class FpjpApp {
         )
       } else if (component === "equipment") {
         return <fpjp-department base-path={this.basePath} dep-id={this.entryId}></fpjp-department>
+      } else if (component === "home") {
+        return <h1> Home </h1>
       } else {
         return <h1 class="not-found">404 not found 🦧</h1>
       }

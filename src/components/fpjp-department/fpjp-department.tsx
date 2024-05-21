@@ -22,7 +22,6 @@ export class FpjpDepartment {
     //   return dep;
     // })
     return await Promise.resolve(dep)
-
   }
 
   async componentWillLoad() {
