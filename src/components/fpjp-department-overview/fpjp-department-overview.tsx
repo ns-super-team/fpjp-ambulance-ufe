@@ -43,7 +43,7 @@ export class FpjpDepartmentOverview {
     //   return mockedData;
     // })
   }
-
+  
   async componentWillLoad() {
     this.departments = await this.getDepartments();
   }

@@ -67,6 +67,7 @@ export class FpjpApp {
 
     const selectComponent = () => {
       if (component === "overview") {
+        // return <fpjp-equipment-editor></fpjp-equipment-editor>
         return (
           <fpjp-department-overview onentry-clicked={(e: CustomEvent<any>) => {
             this.entryId = e.detail.id;

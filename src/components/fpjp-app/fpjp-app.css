@@ -4,6 +4,7 @@
   margin-right: 4em;
   margin-top: 1em;
   justify-content: center;
+  --md-sys-color-primary: #4e9fef;
 }
 
 .not-found {

@@ -15,6 +15,9 @@ export namespace Components {
     }
     interface FpjpDepartmentOverview {
     }
+    interface FpjpEquipmentEditor {
+        "rooms": string[];
+    }
     interface MyComponent {
         /**
           * The first name
@@ -64,6 +67,12 @@ declare global {
         prototype: HTMLFpjpDepartmentOverviewElement;
         new (): HTMLFpjpDepartmentOverviewElement;
     };
+    interface HTMLFpjpEquipmentEditorElement extends Components.FpjpEquipmentEditor, HTMLStencilElement {
+    }
+    var HTMLFpjpEquipmentEditorElement: {
+        prototype: HTMLFpjpEquipmentEditorElement;
+        new (): HTMLFpjpEquipmentEditorElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -74,6 +83,7 @@ declare global {
         "fpjp-app": HTMLFpjpAppElement;
         "fpjp-department": HTMLFpjpDepartmentElement;
         "fpjp-department-overview": HTMLFpjpDepartmentOverviewElement;
+        "fpjp-equipment-editor": HTMLFpjpEquipmentEditorElement;
         "my-component": HTMLMyComponentElement;
     }
 }
@@ -87,6 +97,9 @@ declare namespace LocalJSX {
     }
     interface FpjpDepartmentOverview {
         "onEntry-clicked"?: (event: FpjpDepartmentOverviewCustomEvent<any>) => void;
+    }
+    interface FpjpEquipmentEditor {
+        "rooms"?: string[];
     }
     interface MyComponent {
         /**
@@ -106,6 +119,7 @@ declare namespace LocalJSX {
         "fpjp-app": FpjpApp;
         "fpjp-department": FpjpDepartment;
         "fpjp-department-overview": FpjpDepartmentOverview;
+        "fpjp-equipment-editor": FpjpEquipmentEditor;
         "my-component": MyComponent;
     }
 }
@@ -116,6 +130,7 @@ declare module "@stencil/core" {
             "fpjp-app": LocalJSX.FpjpApp & JSXBase.HTMLAttributes<HTMLFpjpAppElement>;
             "fpjp-department": LocalJSX.FpjpDepartment & JSXBase.HTMLAttributes<HTMLFpjpDepartmentElement>;
             "fpjp-department-overview": LocalJSX.FpjpDepartmentOverview & JSXBase.HTMLAttributes<HTMLFpjpDepartmentOverviewElement>;
+            "fpjp-equipment-editor": LocalJSX.FpjpEquipmentEditor & JSXBase.HTMLAttributes<HTMLFpjpEquipmentEditorElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
