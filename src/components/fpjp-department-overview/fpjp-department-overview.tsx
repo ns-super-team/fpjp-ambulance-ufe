@@ -1,29 +1,5 @@
 import { Component, h, Event, EventEmitter, State } from '@stencil/core';
 
-type Department = {
-  name: string,
-  id: string
-}
-
-const mockedData: Department[] = [
-  {
-    name: 'Pediatrické oddelenie',
-    id: '759413c5-840e-42c3-9e1e-abaa5d4c997f'
-  },
-  {
-    name: 'Alergológia',
-    id: '3e84ecb0-dd42-4071-a163-d6c2d95cfcdc'
-  },
-  {
-    name: 'Chirurgia',
-    id: '673c60aa-288c-40fd-abe7-81112c760109'
-  },
-  {
-    name: 'Ortopédia',
-    id: '1a81b385-332c-43ab-b389-206ddf766b5c'
-  }
-]
-
 @Component({
   tag: 'fpjp-department-overview',
   styleUrl: 'fpjp-department-overview.css',
@@ -75,3 +51,27 @@ export class FpjpDepartmentOverview {
     );
   }
 }
+
+type Department = {
+  name: string,
+  id: string
+}
+
+const mockedData: Department[] = [
+  {
+    name: 'Pediatrické oddelenie',
+    id: '759413c5-840e-42c3-9e1e-abaa5d4c997f'
+  },
+  {
+    name: 'Alergológia',
+    id: '3e84ecb0-dd42-4071-a163-d6c2d95cfcdc'
+  },
+  {
+    name: 'Chirurgia',
+    id: '673c60aa-288c-40fd-abe7-81112c760109'
+  },
+  {
+    name: 'Ortopédia',
+    id: '1a81b385-332c-43ab-b389-206ddf766b5c'
+  }
+]

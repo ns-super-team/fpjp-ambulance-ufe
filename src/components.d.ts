@@ -16,7 +16,8 @@ export namespace Components {
     interface FpjpDepartmentOverview {
     }
     interface FpjpEquipmentEditor {
-        "rooms": string[];
+        "equipment": { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
+        "rooms": {"id": string, "name": string}[];
     }
     interface MyComponent {
         /**
@@ -99,7 +100,8 @@ declare namespace LocalJSX {
         "onEntry-clicked"?: (event: FpjpDepartmentOverviewCustomEvent<any>) => void;
     }
     interface FpjpEquipmentEditor {
-        "rooms"?: string[];
+        "equipment"?: { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
+        "rooms"?: {"id": string, "name": string}[];
     }
     interface MyComponent {
         /**
