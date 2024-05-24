@@ -7,7 +7,7 @@ import { Component, Host, h, Prop, State, Event, EventEmitter } from '@stencil/c
 })
 export class FpjpEquipmentEditor {
   @Prop() rooms:  {"id": string, "name": string}[] = []
-  @Prop() equipment = {"id": "", "name": "", "type": "", "count": 0, "room": { "id": "", "name": "" }  };
+  @Prop() equipment = {"id": "", "name": "", "type": "", "count": 0, "room": { "id": "", "name": "" } };
   @Prop() apiBase: string;
 
   @Event({ eventName: "clicked"}) Clicked: EventEmitter<any>;
@@ -31,20 +31,6 @@ export class FpjpEquipmentEditor {
   }
 
   private async apiRequest(path: string, body: any, method: string) {
-    // let response = await fetch(path, {
-    //   method: method,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-
-    // if (!response.ok) {
-    //   console.error("Error:", await response.json());
-    //   this.error = `The server responded with ${response.status} (${response.statusText})`
-    // }
-
-    // return await response.json()
     return await fetch(path, {
       method: method,
       headers: {

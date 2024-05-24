@@ -22,3 +22,14 @@ md-list-item:hover {
   background-color: #e7f7f7;
   border-radius: 2px;
 }
+
+.error-msg {
+  text-align: center;
+}
+
+.progress-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}

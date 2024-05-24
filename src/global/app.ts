@@ -10,6 +10,7 @@ import '@material/web/textfield/filled-text-field.js'
 import '@material/web/textfield/outlined-text-field.js'
 import '@material/web/dialog/dialog.js'
 import '@material/web/select/select-option'
+import '@material/web/progress/circular-progress.js'
 
 import { registerNavigationApi } from './navigation.js'
 

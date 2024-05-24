@@ -14,8 +14,8 @@ export class FpjpApp {
   @Prop() apiBase: string;
 
   @State() private relativePath = "";
-  @State() private entryId = "";
-  @State() private lastDepartment = "";
+  @State() private departmentID = "";
+  // @State() private lastDepartment = "";
   @State() private departmentRooms: {"id": string, "name": string}[] = [];
   @State() private selectedEquipment: any;
 
@@ -27,8 +27,7 @@ export class FpjpApp {
       } else {
         this.relativePath = ""
       }
-    }
-    
+    }    
     console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`) 
 
     window.navigation?.addEventListener("navigate", (ev: Event) => {
@@ -38,11 +37,15 @@ export class FpjpApp {
     });
     
     toRelative(location.pathname)
+
+    let sessionDepartmentID = sessionStorage.getItem("departmentID")
+    if (sessionDepartmentID) this.departmentID = sessionDepartmentID
   }
 
   render() {
     let component = ""
-
+    console.log(this.departmentID)
+    
     const navigate = (path: string) => {
       const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
       console.log(absolute)
@@ -62,46 +65,50 @@ export class FpjpApp {
       component = "equipment";
     }
 
-    if (this.relativePath.startsWith("equipment/")) {
+    if (this.relativePath.startsWith(`${this.departmentID}/equipment/`)) {
       component = "equipment-editor"
     }
 
     console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`)
+    // console.log(component, this.departmentID)
     
     const selectComponent = () => {
       if (component === "overview") {
         return (
-        <fpjp-department-overview
-          api-base={this.apiBase}
-          onentry-clicked={(e: CustomEvent<any>) => {
-            this.entryId = e.detail.id;
-            this.lastDepartment = e.detail.path;
-            navigate("./department/" + e.detail.path);
-          }}
-        >
-        </fpjp-department-overview>
+          <fpjp-department-overview
+            api-base={this.apiBase}
+            onentry-clicked={(e: CustomEvent<any>) => {
+              this.departmentID = e.detail.id;
+              sessionStorage.setItem("departmentID", e.detail.id);
+
+              // this.lastDepartment = e.detail.path;
+              navigate("./department/" + this.departmentID);
+            }}
+          >
+          </fpjp-department-overview>
         )
       } else if (component === "equipment") {
+        // console.log(this.departmentID)
         return (
-        <fpjp-department 
-          base-path={this.basePath} 
-          api-base={this.apiBase}
-          dep-id={this.entryId}
-          on-clicked={(e: CustomEvent<any>) => {
-            this.selectedEquipment = e.detail.eq;
-            this.departmentRooms = e.detail.rooms;
-            navigate("./equipment/" + e.detail.path)
-          }}
-        >
-        </fpjp-department>
-      )
+          <fpjp-department 
+            base-path={this.basePath} 
+            api-base={this.apiBase}
+            dep-id={this.departmentID}
+            on-clicked={(e: CustomEvent<any>) => {
+              this.selectedEquipment = e.detail.eq;
+              this.departmentRooms = e.detail.rooms;
+              navigate(this.departmentID + "/equipment/" + e.detail.path)
+            }}
+          >
+          </fpjp-department>
+        )
       } else if (component === "equipment-editor") {
         return (
           <fpjp-equipment-editor 
             api-base={this.apiBase}
             rooms={this.departmentRooms} 
             equipment={this.selectedEquipment}
-            on-clicked={() => navigate("./department/" + this.lastDepartment)}
+            on-clicked={() => navigate("./department/" + this.departmentID)}
           >
           </fpjp-equipment-editor>
         )

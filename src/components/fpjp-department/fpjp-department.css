@@ -79,3 +79,14 @@ md-list-item:hover {
 /* .add-button .icon {
   color: #ffff
 } */
+
+.error-msg {
+  text-align: center;
+}
+
+.progress-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}

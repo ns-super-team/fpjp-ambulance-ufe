@@ -15,19 +15,30 @@ export class FpjpDepartment {
   @State() info: DepartmentInfo;
   @State() selectedEquipment: ExtendedEquipment;
   @State() rooms: {"id": string, "name": string}[] = [];
+  @State() loading = true;
+  @State() error = false;
 
   private async getDepartmentInfo(): Promise<any> {
     // TODO fix:
     // - resets id when refreshed
-    // - maybe query the name/path which is in the url
-    // console.log(`http://localhost:8000/department/${this.depId}`)
-    // return fetch(`http://localhost:8000/department/${this.depId}`)
-    //   .then((r) => { return r.json() })
-    //   .catch(()=> { 
-    //     console.log('error')
-    //     return dep;
-    //   })
-    return await Promise.resolve(dep)
+    return fetch(`${this.apiBase}/departments/${this.depId}/equipment`)
+    .then((response) => {
+      if (response.ok) {
+        this.loading = false;
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .catch((response) => {
+      try {
+        this.loading = false
+        this.error = true
+        response.json().then((msg: any) => console.log("Error: ", msg))
+      } catch (err) {
+        console.log(err)
+      }
+    })
   }
 
   private setEditor(room: Room, equipment: Equipment) {
@@ -49,10 +60,21 @@ export class FpjpDepartment {
 
   async componentWillLoad() {
     this.info = await this.getDepartmentInfo();
+    console.log(this.info)
     this.parseRooms(this.info)
   }
 
   render() {
+    if (this.loading) {
+      return (
+        <div class="progress-indicator">
+          <md-circular-progress indeterminate></md-circular-progress>
+        </div>
+      )
+    } else if (this.error) {
+      return <h1 class="error-msg">Something went wrong 😑</h1>
+    }
+
     return (
       <Host>
         <h1>{this.info.name + ' - vybavenie'}</h1>
@@ -74,6 +96,9 @@ export class FpjpDepartment {
                 </md-list-item>
               ))}
             </md-list>
+            { room.equipment.length == 0 && (
+              <p>Miestnosť neobsahuje žiadne vybavenie</p>
+            )}
           </div>
         ))} 
         </div>
@@ -85,13 +110,15 @@ export class FpjpDepartment {
           </md-filled-tonal-button>
           <div class="add-button-container">
             <md-filled-tonal-button class="add-request-button"
-              onClick={() => console.log('pridavam request')}>
-                <md-icon class="icon" slot="icon">add</md-icon>
+              onClick={() => console.log('pridavam request')}
+            >
+              <md-icon class="icon" slot="icon">add</md-icon>
               Nová požiadavka
             </md-filled-tonal-button>
             <md-filled-tonal-button class="add-button"
-              onClick={() => this.setEditor(null, null)}>
-                <md-icon class="icon" slot="icon">add</md-icon>
+              onClick={() => this.setEditor(null, null)}
+            >
+              <md-icon class="icon" slot="icon">add</md-icon>
               Pridať vybavenie
             </md-filled-tonal-button>
           </div>
@@ -104,8 +131,6 @@ export class FpjpDepartment {
 type ExtendedEquipment = {
   id: string,
   room: { id: string, name: string },
-  // room_id: string,
-  // room_name: string
   type: string,
   count: number,
   name: string,
@@ -119,7 +144,6 @@ type Equipment = {
   name: string,
 }
 
-
 type Room = {
   name: string,
   id: string,
@@ -130,106 +154,4 @@ type DepartmentInfo = {
   name: string,
   id: string,
   rooms: Room[]
-}
-
-const dep = {
-  name: 'Pediatrické oddelenie',
-  id: '759413c5-840e-42c3-9e1e-abaa5d4c997f',
-  rooms: [
-    {
-      name: 'Miestnosť 1',
-      id: '11',
-      equipment: [
-        {
-          id: '1',
-          room_id: '11',
-          type: 'medical_equipment',
-          name: 'striekačka',
-          count: 10
-        },
-        {
-          id: '2',
-          room_id: '11',
-          type: 'medical_equipment',
-          name: 'rukavice',
-          count: 20
-        },
-        {
-          id: '3',
-          room_id: '11',
-          type: 'furniture',
-          name: 'kancelársky stôl',
-          count: 1
-        },
-        {
-          id: '4',
-          room_id: '11',
-          type: 'furniture',
-          name: 'stolička',
-          count: 2
-        },
-      ]
-    },
-    {
-      id: '22',
-      name: 'Miestnosť 2',
-      equipment: [
-        {
-          id: '5',
-          room_id: '22',
-          type: 'furniture',
-          name: 'posteľ',
-          count: 4
-        },
-        {
-          id: '6',
-          room_id: '22',
-          type: 'furniture',
-          name: 'stolička',
-          count: 4
-        },
-      ]
-    },
-    {
-      id: '33',
-      name: 'Miestnosť 3',
-      equipment: [
-        {
-          id: '6',
-          room_id: '33',
-          type: 'furniture',
-          name: 'posteľ',
-          count: 10
-        },
-        {
-          id: '6',
-          room_id: '33',
-          type: 'furniture',
-          name: 'posteľ',
-          count: 10
-        },
-        {
-          id: '6',
-          room_id: '33',
-          type: 'furniture',
-          name: 'posteľ',
-          count: 10
-        },
-        {
-          id: '6',
-          room_id: '33',
-          type: 'furniture',
-          name: 'posteľ',
-          count: 10
-        },
-        {
-          id: '6',
-          room_id: '33',
-          type: 'furniture',
-          name: 'posteľ',
-          count: 10
-        },
-      ]
-    }
-  ]
 }
