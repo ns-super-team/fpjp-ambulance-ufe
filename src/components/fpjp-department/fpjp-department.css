@@ -24,56 +24,57 @@ md-list-item:hover {
   border-radius: 2px;
 }
 
-.editor-container {
+/* .editor-container {
   max-width: 80%;
   margin-top: 5em;
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 .container {
   display: flex;
   flex-direction: column;
+  margin-bottom: 2em;
 }
 
 .button-container { 
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: space-between;
-  gap: 1em;
+  gap: 0.2em;
+  /* top: 0; */
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 2em;
+  right: 5%;
+  /* left: 0; */
 }
 
 .back-button {
   margin-top: 1em;
   align-self: flex-end;
   --md-filled-tonal-button-container-color: #91c8ff;
-  /* --md-filled-tonal-button-label-text-color: #ffff; */
-  /* --md-hover-label-text-color: #ffff; */
+  width: 100%;
 }
 
 .add-button-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: end;
-  gap: 1em;
+  /* gap: 0.5em; */
 }
 
 .add-request-button {
   margin-top: 1em;
   align-self: flex-end;
   --md-filled-tonal-button-container-color: #91c8ff;
-  /* --md-filled-tonal-button-label-text-color: #ffff; */
-  /* --md-hover-label-text-color: #ffff; */
 }
 
 .add-button {
   margin-top: 1em;
   align-self: flex-end;
   --md-filled-tonal-button-container-color: #94f7b3;
-  /* --md-filled-tonal-button-label-text-color: #ffff; */
-  /* --md-hover-label-text-color: #ffff; */
 }
-
 
 /* .add-button .icon {
   color: #ffff

@@ -39,7 +39,9 @@ export class FpjpDepartmentOverview {
         <md-list>
           { this.departments.map(department => (
           <div>
-            <md-list-item interactive onClick={ () => this.entryClicked.emit({ path: this.convertString(department.name), id: department.id })}>
+            <md-list-item interactive 
+              onClick={ () => this.entryClicked.emit({ path: this.convertString(department.name), id: department.id })}
+            >
               <div slot="headline">{department.name}</div>
               <md-icon slot="end">chevron_right</md-icon>
             </md-list-item>

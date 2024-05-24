@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'fpjp-equipment-editor',
@@ -9,9 +9,12 @@ export class FpjpEquipmentEditor {
   @Prop() rooms:  {"id": string, "name": string}[] = []
   @Prop() equipment = {"id": "", "name": "", "type": "", "count": 0, "room": { "id": "", "name": "" }  };
 
+  @Event({ eventName: "clicked"}) Clicked: EventEmitter<any>;
+
   @State() updatedEquipment = null;
   @State() action = "update";
   @State() valid: boolean;
+  @State() dialog = false;
   
   private equipment_type = ["furniture", "medical_equipment"]
   private formElement: HTMLFormElement;
@@ -39,6 +42,11 @@ export class FpjpEquipmentEditor {
     } else {
       console.log("Invalid form")
     }
+  }
+
+  private async handleDelete() {
+    console.log("Delete")
+    this.dialog = false
   }
 
   private checkForm() {
@@ -75,7 +83,7 @@ export class FpjpEquipmentEditor {
     return (
       <Host>
         <div class="form-container">
-          <h2>{this.equipment.id === "" ? "Pridať nové vybavenie" : "Editácia vybavenia"}</h2>
+          <h2>{this.action === "create" ? "Pridať nové vybavenie" : "Editácia vybavenia"}</h2>
           <form ref={el => this.formElement = el} class="equipment-form">
             <div class="input-container">
               Typ vybavenia *
@@ -141,15 +149,54 @@ export class FpjpEquipmentEditor {
           </form>
           <div class="button-container">
             <md-filled-tonal-button id="back" class="back-button"
-              onClick={() => console.log()}>
-                <md-icon class="icon" slot="icon">arrow_back</md-icon>
+              onClick={() => this.Clicked.emit("cancel")}
+            >
+              <md-icon class="icon" slot="icon">arrow_back</md-icon>
               Späť
             </md-filled-tonal-button>
-            <md-filled-tonal-button id="save" class="save-button"
-              onClick={() => this.action === "update" ? this.handleUpdate() : this.handleCreate()}>
+            <md-dialog class="dialog" type="confirm" open={this.dialog}>
+              <div slot="headline">Potvrďte vymazanie</div>
+              <form id="form" slot="content" method="dialog">
+                Naozaj chcete vymazať toto vybavenie?
+              </form>
+              <div slot="actions">
+                <md-text-button class="dialog-delete-button" form="form" value="delete"
+                  onClick={() => {
+                    this.handleDelete()
+                  }}
+                >
+                  Vymazať
+                </md-text-button>
+                <md-filled-tonal-button class="dialog-cancel-button" form="form" value="cancel" autofocus
+                  onClick={() => {
+                    this.dialog = false
+                  }}
+                >
+                  Zrušiť
+                </md-filled-tonal-button>
+              </div>
+            </md-dialog>
+            <div class="cd-button-container">
+              { this.action === "update" && (
+                <md-filled-tonal-button id="deleted" class="delete-button"
+                  onClick={() => this.dialog = true}
+                >
+                  <md-icon class="icon" slot="icon">delete</md-icon>
+                  Vymazať
+                </md-filled-tonal-button>
+              )}
+              <md-filled-tonal-button id="save" class="save-button"
+                onClick={() => {
+                  this.action === "update" ? this.handleUpdate() : this.handleCreate();
+                  if (this.valid) {
+                    this.Clicked.emit(this.action)
+                  }
+                }}
+              >
                 <md-icon class="icon" slot="icon">save</md-icon>
-              Uložiť
-            </md-filled-tonal-button>
+                Uložiť
+              </md-filled-tonal-button>
+            </div>
           </div>
         </div>
       </Host>

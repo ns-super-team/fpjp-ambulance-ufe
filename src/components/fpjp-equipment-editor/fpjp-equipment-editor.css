@@ -2,7 +2,11 @@
   display: block;
   /* --md-list-container-color: #c4dcf4;
   --md-list-item-label-text-color: #252727; */
-  /* min-width: 50%; */
+  min-width: 40%;
+  max-width: 80%;
+  margin-top: 4em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h1 {
@@ -28,7 +32,7 @@ md-list-item {
 .input-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5em
+  gap: 0.5em;
 }
 
 .selector {
@@ -71,20 +75,43 @@ md-list-item {
   flex-direction: row;
   justify-content: space-between;
   gap: 1em;
+  margin-top: 1em;
+}
+
+.cd-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
 }
 
 .back-button {
   margin-top: 1em;
   align-self: flex-end;
   --md-filled-tonal-button-container-color: #91c8ff;
-  /* --md-filled-tonal-button-label-text-color: #ffff; */
-  /* --md-hover-label-text-color: #ffff; */
 }
 
 .save-button {
   margin-top: 1em;
   align-self: flex-end;
   --md-filled-tonal-button-container-color: #94f7b3;
-  /* --md-filled-tonal-button-label-text-color: #ffff; */
-  /* --md-hover-label-text-color: #ffff; */
 }
+
+.delete-button {
+  margin-top: 1em;
+  align-self: flex-end;
+  --md-filled-tonal-button-container-color: #ff6161cf;
+}
+
+.dialog {
+  max-width: 320px;
+  --md-dialog-container-color: #ffff;
+}
+
+.dialog-cancel-button {
+  --md-filled-tonal-button-container-color: #91c8ff;
+}
+
+/* .dialog-delete-button {
+  --md-text-button-label-text-color:  #ff6161cf;
+} */

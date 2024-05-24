@@ -34,9 +34,17 @@ export namespace Components {
         "middle": string;
     }
 }
+export interface FpjpDepartmentCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFpjpDepartmentElement;
+}
 export interface FpjpDepartmentOverviewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLFpjpDepartmentOverviewElement;
+}
+export interface FpjpEquipmentEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFpjpEquipmentEditorElement;
 }
 declare global {
     interface HTMLFpjpAppElement extends Components.FpjpApp, HTMLStencilElement {
@@ -45,7 +53,18 @@ declare global {
         prototype: HTMLFpjpAppElement;
         new (): HTMLFpjpAppElement;
     };
+    interface HTMLFpjpDepartmentElementEventMap {
+        "clicked": any;
+    }
     interface HTMLFpjpDepartmentElement extends Components.FpjpDepartment, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFpjpDepartmentElementEventMap>(type: K, listener: (this: HTMLFpjpDepartmentElement, ev: FpjpDepartmentCustomEvent<HTMLFpjpDepartmentElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFpjpDepartmentElementEventMap>(type: K, listener: (this: HTMLFpjpDepartmentElement, ev: FpjpDepartmentCustomEvent<HTMLFpjpDepartmentElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLFpjpDepartmentElement: {
         prototype: HTMLFpjpDepartmentElement;
@@ -68,7 +87,18 @@ declare global {
         prototype: HTMLFpjpDepartmentOverviewElement;
         new (): HTMLFpjpDepartmentOverviewElement;
     };
+    interface HTMLFpjpEquipmentEditorElementEventMap {
+        "clicked": any;
+    }
     interface HTMLFpjpEquipmentEditorElement extends Components.FpjpEquipmentEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFpjpEquipmentEditorElementEventMap>(type: K, listener: (this: HTMLFpjpEquipmentEditorElement, ev: FpjpEquipmentEditorCustomEvent<HTMLFpjpEquipmentEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFpjpEquipmentEditorElementEventMap>(type: K, listener: (this: HTMLFpjpEquipmentEditorElement, ev: FpjpEquipmentEditorCustomEvent<HTMLFpjpEquipmentEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLFpjpEquipmentEditorElement: {
         prototype: HTMLFpjpEquipmentEditorElement;
@@ -95,12 +125,14 @@ declare namespace LocalJSX {
     interface FpjpDepartment {
         "basePath"?: string;
         "depId"?: string;
+        "onClicked"?: (event: FpjpDepartmentCustomEvent<any>) => void;
     }
     interface FpjpDepartmentOverview {
         "onEntry-clicked"?: (event: FpjpDepartmentOverviewCustomEvent<any>) => void;
     }
     interface FpjpEquipmentEditor {
         "equipment"?: { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
+        "onClicked"?: (event: FpjpEquipmentEditorCustomEvent<any>) => void;
         "rooms"?: {"id": string, "name": string}[];
     }
     interface MyComponent {

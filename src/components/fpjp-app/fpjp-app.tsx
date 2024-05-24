@@ -10,9 +10,13 @@ declare global {
   shadow: true,
 })
 export class FpjpApp {
+  @Prop() basePath  = "";
+  
   @State() private relativePath = "";
   @State() private entryId = "";
-  @Prop() basePath  = "";
+  @State() private lastDepartment = "";
+  @State() private departmentRooms: {"id": string, "name": string}[] = [];
+  @State() private selectedEquipment: any;
 
   componentWillLoad() {
     const baseUri = new URL(this.basePath, document.baseURI || "/").pathname;
@@ -33,7 +37,6 @@ export class FpjpApp {
     });
     
     toRelative(location.pathname)
-    console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`)
   }
 
   render() {
@@ -50,11 +53,6 @@ export class FpjpApp {
       component = "overview"
     }
 
-    // const urlWithoutTrailingSlash = document.URL.replace(/\/$/, "");
-    // if (urlWithoutTrailingSlash + '/' === document.baseURI) {
-    //   component = "overview";
-    // }
-
     if (document.URL.endsWith(this.basePath) || document.URL.endsWith(this.basePath.slice(0, -1))) {
       component = "overview";
     }
@@ -62,21 +60,42 @@ export class FpjpApp {
     if (this.relativePath.startsWith("department/")) {
       component = "equipment";
     }
-    
-    // console.log(`element: ${element}`)
 
+    if (this.relativePath.startsWith("equipment/")) {
+      component = "equipment-editor"
+    }
+
+    console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`)
+    
     const selectComponent = () => {
       if (component === "overview") {
         // return <fpjp-equipment-editor></fpjp-equipment-editor>
         return (
           <fpjp-department-overview onentry-clicked={(e: CustomEvent<any>) => {
             this.entryId = e.detail.id;
+            this.lastDepartment = e.detail.path;
             navigate("./department/" + e.detail.path);
           }}>
           </fpjp-department-overview>
         )
       } else if (component === "equipment") {
-        return <fpjp-department base-path={this.basePath} dep-id={this.entryId}></fpjp-department>
+        return (
+        <fpjp-department base-path={this.basePath} dep-id={this.entryId}
+          on-clicked={(e: CustomEvent<any>) => {
+            this.selectedEquipment = e.detail.eq;
+            this.departmentRooms = e.detail.rooms;
+            navigate("./equipment/" + e.detail.path)
+          }}
+        >
+        </fpjp-department>
+      )
+      } else if (component === "equipment-editor") {
+        return (
+          <fpjp-equipment-editor rooms={this.departmentRooms} equipment={this.selectedEquipment}
+            on-clicked={() => navigate("./department/" + this.lastDepartment)}
+          >
+          </fpjp-equipment-editor>
+        )
       } else if (component === "home") {
         return <h1> Home </h1>
       } else {
@@ -86,7 +105,7 @@ export class FpjpApp {
   
     return (
       <Host>
-        {selectComponent()}
+        { selectComponent() }
       </Host>
     );
   }
