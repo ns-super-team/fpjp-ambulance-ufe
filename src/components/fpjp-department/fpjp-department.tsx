@@ -8,6 +8,7 @@ import { Component, Host, h, State, Prop, Event, EventEmitter } from '@stencil/c
 export class FpjpDepartment {
   @Prop() depId: string;
   @Prop() basePath: string;
+  @Prop() apiBase: string;
   
   @Event({ eventName: "clicked"}) Clicked: EventEmitter<any>;
 

@@ -7,15 +7,19 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface FpjpApp {
+        "apiBase": string;
         "basePath": string;
     }
     interface FpjpDepartment {
+        "apiBase": string;
         "basePath": string;
         "depId": string;
     }
     interface FpjpDepartmentOverview {
+        "apiBase": string;
     }
     interface FpjpEquipmentEditor {
+        "apiBase": string;
         "equipment": { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
         "rooms": {"id": string, "name": string}[];
     }
@@ -120,17 +124,21 @@ declare global {
 }
 declare namespace LocalJSX {
     interface FpjpApp {
+        "apiBase"?: string;
         "basePath"?: string;
     }
     interface FpjpDepartment {
+        "apiBase"?: string;
         "basePath"?: string;
         "depId"?: string;
         "onClicked"?: (event: FpjpDepartmentCustomEvent<any>) => void;
     }
     interface FpjpDepartmentOverview {
+        "apiBase"?: string;
         "onEntry-clicked"?: (event: FpjpDepartmentOverviewCustomEvent<any>) => void;
     }
     interface FpjpEquipmentEditor {
+        "apiBase"?: string;
         "equipment"?: { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
         "onClicked"?: (event: FpjpEquipmentEditorCustomEvent<any>) => void;
         "rooms"?: {"id": string, "name": string}[];

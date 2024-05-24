@@ -1,4 +1,4 @@
-import { Component, h, Event, EventEmitter, State } from '@stencil/core';
+import { Component, h, Event, EventEmitter, State, Prop } from '@stencil/core';
 
 @Component({
   tag: 'fpjp-department-overview',
@@ -6,7 +6,7 @@ import { Component, h, Event, EventEmitter, State } from '@stencil/core';
   shadow: true,
 })
 export class FpjpDepartmentOverview {
-  // @Prop() header = "Pre";
+  @Prop() apiBase: string;
   @Event({ eventName: "entry-clicked"}) entryClicked: EventEmitter<any>;
   @State() departments: Department[];
 

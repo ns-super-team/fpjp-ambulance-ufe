@@ -11,7 +11,8 @@ declare global {
 })
 export class FpjpApp {
   @Prop() basePath  = "";
-  
+  @Prop() apiBase: string;
+
   @State() private relativePath = "";
   @State() private entryId = "";
   @State() private lastDepartment = "";
@@ -69,18 +70,23 @@ export class FpjpApp {
     
     const selectComponent = () => {
       if (component === "overview") {
-        // return <fpjp-equipment-editor></fpjp-equipment-editor>
         return (
-          <fpjp-department-overview onentry-clicked={(e: CustomEvent<any>) => {
+        <fpjp-department-overview
+          api-base={this.apiBase}
+          onentry-clicked={(e: CustomEvent<any>) => {
             this.entryId = e.detail.id;
             this.lastDepartment = e.detail.path;
             navigate("./department/" + e.detail.path);
-          }}>
-          </fpjp-department-overview>
+          }}
+        >
+        </fpjp-department-overview>
         )
       } else if (component === "equipment") {
         return (
-        <fpjp-department base-path={this.basePath} dep-id={this.entryId}
+        <fpjp-department 
+          base-path={this.basePath} 
+          api-base={this.apiBase}
+          dep-id={this.entryId}
           on-clicked={(e: CustomEvent<any>) => {
             this.selectedEquipment = e.detail.eq;
             this.departmentRooms = e.detail.rooms;
@@ -91,7 +97,10 @@ export class FpjpApp {
       )
       } else if (component === "equipment-editor") {
         return (
-          <fpjp-equipment-editor rooms={this.departmentRooms} equipment={this.selectedEquipment}
+          <fpjp-equipment-editor 
+            api-base={this.apiBase}
+            rooms={this.departmentRooms} 
+            equipment={this.selectedEquipment}
             on-clicked={() => navigate("./department/" + this.lastDepartment)}
           >
           </fpjp-equipment-editor>

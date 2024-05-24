@@ -8,6 +8,7 @@ import { Component, Host, h, Prop, State, Event, EventEmitter } from '@stencil/c
 export class FpjpEquipmentEditor {
   @Prop() rooms:  {"id": string, "name": string}[] = []
   @Prop() equipment = {"id": "", "name": "", "type": "", "count": 0, "room": { "id": "", "name": "" }  };
+  @Prop() apiBase: string;
 
   @Event({ eventName: "clicked"}) Clicked: EventEmitter<any>;
 
@@ -15,49 +16,106 @@ export class FpjpEquipmentEditor {
   @State() action = "update";
   @State() valid: boolean;
   @State() dialog = false;
+  @State() error = "";
   
   private equipment_type = ["furniture", "medical_equipment"]
   private formElement: HTMLFormElement;
 
   private handleInput(ev: InputEvent, field: string) {
     const target = ev.target as HTMLInputElement;
-    this.updatedEquipment[field] = target.value
+    if (field === "count") {
+      this.updatedEquipment[field] = Number(target.value)
+    } else {
+      this.updatedEquipment[field] = target.value
+    }
+  }
+
+  private async apiRequest(path: string, body: any, method: string) {
+    // let response = await fetch(path, {
+    //   method: method,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(body),
+    // })
+
+    // if (!response.ok) {
+    //   console.error("Error:", await response.json());
+    //   this.error = `The server responded with ${response.status} (${response.statusText})`
+    // }
+
+    // return await response.json()
+    return await fetch(path, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+    .then((response) => {
+      if (response.ok) {
+        if (response.status !== 204) return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .catch((response) => {
+      response.json().then((msg: any) => console.log("Error: ", msg))
+      this.error = `The server responded with ${response.status} (${response.statusText})`
+    })
+  }
+  
+  private async handleCreate() {
+    this.checkForm()
+    
+    if (this.valid) {
+      const requestPath = `${this.apiBase}/rooms/${this.updatedEquipment.room_id}/equipment`
+      const response = await this.apiRequest(requestPath, this.updatedEquipment, "POST")
+      
+      if (this.error === "") {
+        console.log(response)
+        this.Clicked.emit(this.action)
+      }
+    } else {
+      console.log("Invalid form")
+    }
   }
 
   private async handleUpdate() {
     this.checkForm()
 
     if (this.valid) {
-      console.log(this.updatedEquipment)
+      const requestPath = `${this.apiBase}/equipment/${this.updatedEquipment.id}`
+      const response = await this.apiRequest(requestPath, this.updatedEquipment, "PUT")
+
+      if (this.error === "") {
+        console.log(response)
+        this.Clicked.emit(this.action)
+      }
     } else {
       console.log("Invalid form")
     }
   }
-
-  private async handleCreate() {
-    this.checkForm()
-
-    if (this.valid) {
-      console.log(this.updatedEquipment)
-    } else {
-      console.log("Invalid form")
-    }
-  }
-
+  
   private async handleDelete() {
-    console.log("Delete")
+    const requestPath = `${this.apiBase}/equipment/${this.updatedEquipment.id}`
+    const response = await this.apiRequest(requestPath, null, "DELETE")
+
+    if (this.error === "") {
+      console.log(response)
+      this.Clicked.emit(this.action)
+    }
+
     this.dialog = false
   }
 
   private checkForm() {
     const mdInputElements = this.formElement.querySelectorAll('md-outlined-select, md-outlined-text-field');
-    // console.log(mdInputElements)
     this.valid = true
     mdInputElements.forEach(element => {
       if ("reportValidity" in element) {
         const valid = (element as HTMLInputElement).reportValidity();
         this.valid &&= valid;
-        // console.log(this.valid, valid)
       }
     });
   }
@@ -107,14 +165,11 @@ export class FpjpEquipmentEditor {
                     this.handleInput(ev, "name")
                   }}
                 >
-
                 </md-outlined-text-field>
               </div>
               <div class="input-container-quantity">
                 Počet
-                <md-outlined-text-field 
-                  required
-                  type="number" 
+                <md-outlined-text-field required type="number" 
                   pattern="^[0-9]*$" 
                   min="0" 
                   class="text-field"
@@ -128,7 +183,6 @@ export class FpjpEquipmentEditor {
                     this.handleInput(ev, "count")
                   }}
                 >
-                  {/* <md-icon slot="leading-icon">fingerprint</md-icon> */}
                 </md-outlined-text-field>
               </div>
             </div>
@@ -147,6 +201,21 @@ export class FpjpEquipmentEditor {
               </md-outlined-select>
             </div>
           </form>
+          { this.error !== "" &&(
+            <md-dialog class="dialog" type="alert" open={this.error !== ""}>
+              <div slot="headline">Niečo sa pokazilo 🙄</div>
+              <form id="form" slot="content" method="dialog">
+                {this.error}
+              </form>
+              <div slot="actions">
+                <md-text-button form="form" value="ok"
+                  onClick={() => this.error = ""}
+                >
+                  OK
+                </md-text-button>
+              </div>
+            </md-dialog>
+          )}
           <div class="button-container">
             <md-filled-tonal-button id="back" class="back-button"
               onClick={() => this.Clicked.emit("cancel")}
@@ -186,12 +255,7 @@ export class FpjpEquipmentEditor {
                 </md-filled-tonal-button>
               )}
               <md-filled-tonal-button id="save" class="save-button"
-                onClick={() => {
-                  this.action === "update" ? this.handleUpdate() : this.handleCreate();
-                  if (this.valid) {
-                    this.Clicked.emit(this.action)
-                  }
-                }}
+                onClick={() => this.action === "update" ? this.handleUpdate() : this.handleCreate()}
               >
                 <md-icon class="icon" slot="icon">save</md-icon>
                 Uložiť

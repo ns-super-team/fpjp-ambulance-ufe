@@ -104,7 +104,7 @@ md-list-item {
 }
 
 .dialog {
-  max-width: 320px;
+  min-width: 25%;
   --md-dialog-container-color: #ffff;
 }
 
