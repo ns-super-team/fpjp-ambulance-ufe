@@ -66,7 +66,7 @@ export class FpjpDepartment {
 
   async componentWillLoad() {
     this.info = await this.getDepartmentInfo();
-    console.log(this.info)
+    // console.log(this.info)
     this.parseRooms(this.info)
   }
 

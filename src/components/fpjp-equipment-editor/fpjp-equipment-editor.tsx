@@ -122,8 +122,6 @@ export class FpjpEquipmentEditor {
   }
 
   render() {
-    // console.log(this.equipment)
-    // console.log(this.rooms)
     return (
       <Host>
         <div class="form-container">

@@ -17,17 +17,16 @@ md-list {
 }
 
 .list-broken {
-  background-color: #fec6c6;
+  background-color: #ffdede;
 }
 
 .list-missing {
-  background-color: #fee9ab;
+  background-color: #ffeeb9;
 }
 
 md-list-item {
   cursor: pointer;
   /* border: solid 1px #252727; */
-  margin-bottom: 0.3em;
   border-radius: 6px;
 }
 
@@ -36,13 +35,6 @@ md-list-item:hover {
   border-radius: 6px;
 }
 
-/* .editor-container {
-  max-width: 80%;
-  margin-top: 5em;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
 .container {
   display: flex;
   flex-direction: column;
@@ -50,8 +42,7 @@ md-list-item:hover {
 }
 
 .request-item {
-  border-style: solid;
-  border: #252727;
+  margin-bottom: 0.3em;
 }
 
 .button-container { 
@@ -72,6 +63,13 @@ md-list-item:hover {
   align-self: flex-end;
   --md-filled-tonal-button-container-color: #91c8ff;
   width: 100%;
+}
+
+.done-button {
+  display: flex;
+  justify-content: flex-end;
+  /* align-self: flex-start; */
+  /* background-color: #94f7b3; */
 }
 
 .add-button-container {
@@ -104,4 +102,9 @@ md-list-item:hover {
   justify-content: center;
   align-items: center;
   height: 50vh;
+}
+
+.dialog {
+  min-width: 25%;
+  --md-dialog-container-color: #ffff;
 }

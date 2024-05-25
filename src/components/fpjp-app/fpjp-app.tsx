@@ -29,7 +29,7 @@ export class FpjpApp {
         this.relativePath = ""
       }
     }    
-    console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`) 
+    // console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`) 
 
     window.navigation?.addEventListener("navigate", (ev: Event) => {
       if ((ev as any).canIntercept) { (ev as any).intercept(); }
@@ -45,11 +45,11 @@ export class FpjpApp {
 
   render() {
     let component = ""
-    console.log(this.departmentID)
+    // console.log(this.departmentID)
 
     const navigate = (path: string) => {
       const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
-      console.log(absolute)
+      // console.log(absolute)
       window.navigation.navigate(absolute)
     }
   
@@ -78,7 +78,7 @@ export class FpjpApp {
       component = "request-editor"
     }
 
-    console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`)
+    // console.log(`basePath: ${this.basePath}, baseUri: ${document.baseURI}, relativePath: ${this.relativePath}, documentURL: ${document.URL}`)
     // console.log(component, this.departmentID)
     
     const selectComponent = () => {

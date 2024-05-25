@@ -13,9 +13,11 @@ export class FpjpDepartmentRequests {
   @Event({ eventName: "clicked"}) Clicked: EventEmitter<any>;
   
   @State() info: DepartmentInfo;
+  @State() requests: Request[];
   @State() rooms: {"id": string, "name": string}[] = [];
   @State() loading = true;
   @State() error = false;
+  @State() errorMsg = "";
   
   private async getDepartmentInfo(): Promise<any> {
     return fetch(`${this.apiBase}/departments/${this.depId}/requests`)
@@ -39,7 +41,6 @@ export class FpjpDepartmentRequests {
   }
 
   private setEditor(room: Room, request: Request) {
-    // this.editor = !this.editor
     const selectedRequest = { 
       "id": request !== null ? request.id : "", 
       "name": request !== null ? request.name : "", 
@@ -56,9 +57,49 @@ export class FpjpDepartmentRequests {
     this.rooms = dep.rooms.map(room => { return { "name": room.name, "id": room.id } })
   }
 
+  private async handleDelete(roomID: string, id: string) {
+    await fetch(`${this.apiBase}/requests/${id}`, {
+      method: "DELETE"
+    })
+    .then((response) => {
+      if (response.ok) {
+        this.info = {
+          ...this.info,
+          rooms: this.info.rooms.map(room => {
+            if (room.id === roomID) {
+              return {
+                ...room,
+                requests: room.requests.filter(request => request.id !== id)
+              };
+            }
+            return room;
+          })
+        };
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .catch((response) => {
+      response.json().then((msg: any) => console.log("Error: ", msg))
+      this.errorMsg = `The server responded with ${response.status} (${response.statusText})`
+    })
+  }
+
+  private renderNoRequestsAlert() {
+    let requestCount = 0;
+    this.info.rooms.forEach(room => {
+      requestCount += room.requests.length;
+    })
+    
+    if (requestCount === 0) {
+      return <p>Oddelenie neobsahuje žiadne požiadavky</p>
+    } else {
+      return null;
+    }
+  }
+
   async componentWillLoad() {
     this.info = await this.getDepartmentInfo();
-    console.log(this.info)
     this.parseRooms(this.info)
   }
 
@@ -82,26 +123,52 @@ export class FpjpDepartmentRequests {
             {/* <h3>{room.name}</h3> */}
             <md-list>
             { room.requests.map((req: Request) => (
-              <div class="request-item">
-                {/* <md-divider/> */}
+              <div class="request-item" key={req.id}>
                 <md-list-item 
                   class={req.type === "missing" ? "list-missing" : "list-broken"}
                   onClick={() => this.setEditor(room, req)}
                 >
-                  <div slot="headline">{req.name}</div>
-                  <div slot="supporting-text">{"miestnosť: " + room.name}</div>
-                  <div slot="supporting-text">{req.type === 'missing' ? `počet: ${req.count}` : `opis: ${req.description}`}</div>
+                  <div slot="headline"><b>{req.name}</b></div>
+                  <div slot="supporting-text"><b>miestnosť: </b>{room.name}</div>
+                  {req.type === 'missing' ? (
+                      <div slot="supporting-text"><b>počet: </b>{req.count}</div>
+                    ) : (
+                      <div slot="supporting-text"><b>opis: </b>{req.description}</div>
+                  )}
+                  <div slot="end" class="done-button">
+                    <md-text-button 
+                      onClick={(event: any) => {
+                        event.stopPropagation();
+                        this.handleDelete(room.id, req.id)
+                      }}
+                    >
+                      <md-icon class="icon" slot="icon">check</md-icon>
+                      Vybavené
+                    </md-text-button>
+                  </div>
                 </md-list-item>
-                {/* <md-divider/> */}
               </div>
             ))}
             </md-list>
-            {/* { room.requests.length == 0 && (
-              <p>Miestnosť neobsahuje žiadne vybavenie</p>
-            )} */}
           </div>
         ))} 
+        { this.renderNoRequestsAlert() }
         </div>
+        { this.errorMsg !== "" &&(
+          <md-dialog class="dialog" type="alert" open={this.errorMsg !== ""}>
+            <div slot="headline">Niečo sa pokazilo 🙄</div>
+            <form id="form" slot="content" method="dialog">
+              {this.errorMsg}
+            </form>
+            <div slot="actions">
+              <md-text-button form="form" value="ok"
+                onClick={() => this.errorMsg = ""}
+              >
+                OK
+              </md-text-button>
+            </div>
+          </md-dialog>
+        )}
         <div class="button-container">
           <md-filled-tonal-button class="back-button"
             onClick={() => window.navigation.navigate(new URL(this.basePath, document.baseURI))}>

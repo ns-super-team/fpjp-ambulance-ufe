@@ -47,7 +47,7 @@ export class FpjpRequestEditor {
     this.checkForm()
     
     if (this.valid) {
-      console.log(this.updatedRequest)
+      // console.log(this.updatedRequest)
       const requestPath = `${this.apiBase}/rooms/${this.updatedRequest.room_id}/requests`
       const response = await this.apiRequest(requestPath, this.updatedRequest, "POST")
       
@@ -230,7 +230,7 @@ export class FpjpRequestEditor {
           <md-dialog class="dialog" type="confirm" open={this.dialog}>
             <div slot="headline">Potvrďte vymazanie</div>
             <form id="form" slot="content" method="dialog">
-              Naozaj chcete vymazať toto vybavenie?
+              Naozaj chcete vymazať túto požiadavku?
             </form>
             <div slot="actions">
               <md-text-button class="dialog-delete-button" form="form" value="delete"
