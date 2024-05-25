@@ -68,15 +68,13 @@ md-list-item:hover {
 .done-button {
   display: flex;
   justify-content: flex-end;
-  /* align-self: flex-start; */
-  /* background-color: #94f7b3; */
+  --md-sys-color-primary: #004793;
 }
 
 .add-button-container {
   display: flex;
   flex-direction: column;
   justify-content: end;
-  /* gap: 0.5em; */
 }
 
 .add-request-button {

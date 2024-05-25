@@ -15,7 +15,6 @@ export class FpjpDepartmentOverview {
   @State() error = false;
 
   private async getDepartments(): Promise<Department[]> {
-    // return await Promise.resolve(mockedData)
     return fetch(`${this.apiBase}/departments/`)
     .then((response) => {
       if (response.ok) {
@@ -39,14 +38,7 @@ export class FpjpDepartmentOverview {
   async componentWillLoad() {
     this.departments = await this.getDepartments();
   }
-
-//   private convertString(input: string): string {
-//      // Remove accented characters
-//      const convertedString = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-//      // Replace spaces with '-'
-//      return convertedString.replace(/\s+/g, '-');
-// }
-
+  
   render() {
     if (this.loading) {
       return (
@@ -55,7 +47,12 @@ export class FpjpDepartmentOverview {
         </div>
       )
     } else if (this.error) {
-      return <h1 class="error-msg">Something went wrong 😑</h1>
+      return (
+        <div>
+          <h1 class="error-msg">Something went wrong 😑</h1>
+          <h3 class="error-msg">Can't connect to the api</h3>
+        </div>
+      )
     }
     
     return (
@@ -89,22 +86,3 @@ type Department = {
   name: string,
   id: string
 }
-
-// const mockedData: Department[] = [
-//   {
-//     name: 'Pediatrické oddelenie',
-//     id: '759413c5-840e-42c3-9e1e-abaa5d4c997f'
-//   },
-//   {
-//     name: 'Alergológia',
-//     id: '3e84ecb0-dd42-4071-a163-d6c2d95cfcdc'
-//   },
-//   {
-//     name: 'Chirurgia',
-//     id: '673c60aa-288c-40fd-abe7-81112c760109'
-//   },
-//   {
-//     name: 'Ortopédia',
-//     id: '1a81b385-332c-43ab-b389-206ddf766b5c'
-//   }
-// ]

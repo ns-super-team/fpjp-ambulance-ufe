@@ -15,7 +15,6 @@ export class FpjpApp {
 
   @State() private relativePath = "";
   @State() private departmentID = "";
-  // @State() private lastDepartment = "";
   @State() private departmentRooms: {"id": string, "name": string}[] = [];
   @State() private selectedEquipment: any;
   @State() private selectedRequest: any;

@@ -111,7 +111,12 @@ export class FpjpDepartmentRequests {
         </div>
       )
     } else if (this.error) {
-      return <h1 class="error-msg">Something went wrong 😑</h1>
+      return (
+        <div>
+          <h1 class="error-msg">Something went wrong 😑</h1>
+          <h3 class="error-msg">Can't connect to the api</h3>
+        </div>
+      )
     }
 
     return (
