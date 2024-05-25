@@ -1,7 +1,9 @@
 :host {
   display: block;
   --md-list-item-label-text-color: #252727;
+  /* --md-list-container-color: #ffffff; */
   min-width: 50%;
+  max-width: 50%;
 }
 
 h1 {
@@ -14,11 +16,18 @@ md-list {
   background-color: #ffffff;
 }
 
+.list-broken {
+  background-color: #ffdede;
+}
+
+.list-missing {
+  background-color: #ffeeb9;
+}
+
 md-list-item {
   cursor: pointer;
-  margin-bottom: 0.3em;
+  /* border: solid 1px #252727; */
   border-radius: 6px;
-  background-color: #c4dcf4;
 }
 
 md-list-item:hover {
@@ -26,17 +35,14 @@ md-list-item:hover {
   border-radius: 6px;
 }
 
-/* .editor-container {
-  max-width: 80%;
-  margin-top: 5em;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
 .container {
   display: flex;
   flex-direction: column;
   margin-bottom: 2em;
+}
+
+.request-item {
+  margin-bottom: 0.3em;
 }
 
 .button-container { 
@@ -59,11 +65,16 @@ md-list-item:hover {
   width: 100%;
 }
 
+.done-button {
+  display: flex;
+  justify-content: flex-end;
+  --md-sys-color-primary: #004793;
+}
+
 .add-button-container {
   display: flex;
   flex-direction: column;
   justify-content: end;
-  /* gap: 0.5em; */
 }
 
 .add-request-button {
@@ -80,10 +91,6 @@ md-list-item:hover {
   width: 100%;
 }
 
-/* .add-button .icon {
-  color: #ffff
-} */
-
 .error-msg {
   text-align: center;
 }
@@ -93,4 +100,9 @@ md-list-item:hover {
   justify-content: center;
   align-items: center;
   height: 50vh;
+}
+
+.dialog {
+  min-width: 25%;
+  --md-dialog-container-color: #ffff;
 }

@@ -1,6 +1,7 @@
 :host {
-  --md-list-container-color: #c4dcf4;
+  --md-list-container-color: #c4dcf4; /* #c4dcf4 */
   --md-list-item-label-text-color: #252727;
+  --md-sys-color-primary: #004793;
   min-width: 50%;
 }
 
@@ -13,12 +14,31 @@ md-list {
   border-radius: 6px;
   padding: 0px;
 }
-
+/* 
 md-list-item {
   cursor: pointer;
-}
+} */
 
 md-list-item:hover {
   background-color: #e7f7f7;
   border-radius: 2px;
 }
+
+.error-msg {
+  text-align: center;
+}
+
+.progress-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+/* md-text-button {
+  --md-text-button-label-text-color: blue;
+}
+
+md-text-button:hover {
+  --md-text-button-label-text-color: blue;
+} */
