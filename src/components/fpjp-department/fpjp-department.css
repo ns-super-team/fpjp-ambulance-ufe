@@ -1,6 +1,5 @@
 :host {
   display: block;
-  --md-list-container-color: #c4dcf4;
   --md-list-item-label-text-color: #252727;
   min-width: 50%;
 }
@@ -11,17 +10,20 @@ h1 {
 }
 
 md-list {
-  border-radius: 6px;
   padding: 0px;
+  background-color: #ffffff;
 }
 
 md-list-item {
   cursor: pointer;
+  margin-bottom: 0.3em;
+  border-radius: 6px;
+  background-color: #c4dcf4;
 }
 
 md-list-item:hover {
   background-color: #e7f7f7;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 /* .editor-container {

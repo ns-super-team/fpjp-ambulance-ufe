@@ -103,8 +103,11 @@ export class FpjpApp {
             dep-id={this.departmentID}
             on-clicked={(e: CustomEvent<any>) => {
               this.selectedEquipment = e.detail.eq;
+              this.selectedRequest = e.detail.req;
               this.departmentRooms = e.detail.rooms;
-              navigate(this.departmentID + "/equipment/editor/" + e.detail.path)
+              this.selectedEquipment ? 
+                navigate(this.departmentID + "/equipment/editor/" + e.detail.path) :
+                navigate(this.departmentID + "/requests/editor/" + e.detail.path)
             }}
           >
           </fpjp-department>

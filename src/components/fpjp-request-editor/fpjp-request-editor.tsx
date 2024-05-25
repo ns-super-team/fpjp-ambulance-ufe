@@ -45,49 +45,47 @@ export class FpjpRequestEditor {
 
   private async handleCreate() {
     this.checkForm()
-    console.log("Create")
     
-    // if (this.valid) {
-    //   const requestPath = `${this.apiBase}/rooms/${this.updatedEquipment.room_id}/equipment`
-    //   const response = await this.apiRequest(requestPath, this.updatedEquipment, "POST")
+    if (this.valid) {
+      console.log(this.updatedRequest)
+      const requestPath = `${this.apiBase}/rooms/${this.updatedRequest.room_id}/requests`
+      const response = await this.apiRequest(requestPath, this.updatedRequest, "POST")
       
-    //   if (this.error === "") {
-    //     console.log(response)
-    //     this.Clicked.emit(this.action)
-    //   }
-    // } else {
-    //   console.log("Invalid form")
-    // }
+      if (this.error === "") {
+        console.log("Success: ", response)
+        this.Clicked.emit(this.action)
+      }
+    } else {
+      console.log("Invalid form")
+    }
   }
 
   private async handleUpdate() {
     this.checkForm()
-    console.log("Update")
 
-    // if (this.valid) {
-    //   const requestPath = `${this.apiBase}/equipment/${this.updatedEquipment.id}`
-    //   const response = await this.apiRequest(requestPath, this.updatedEquipment, "PUT")
+    if (this.valid) {
+      const requestPath = `${this.apiBase}/requests/${this.updatedRequest.id}`
+      const response = await this.apiRequest(requestPath, this.updatedRequest, "PUT")
 
-    //   if (this.error === "") {
-    //     console.log(response)
-    //     this.Clicked.emit(this.action)
-    //   }
-    // } else {
-    //   console.log("Invalid form")
-    // }
+      if (this.error === "") {
+        console.log(response)
+        this.Clicked.emit(this.action)
+      }
+    } else {
+      console.log("Invalid form")
+    }
   }
   
   private async handleDelete() {
-    console.log("Delete")
-    // const requestPath = `${this.apiBase}/equipment/${this.updatedEquipment.id}`
-    // const response = await this.apiRequest(requestPath, null, "DELETE")
+    const requestPath = `${this.apiBase}/requests/${this.updatedRequest.id}`
+    const response = await this.apiRequest(requestPath, null, "DELETE")
 
-    // if (this.error === "") {
-    //   console.log(response)
-    //   this.Clicked.emit(this.action)
-    // }
+    if (this.error === "") {
+      console.log(response)
+      this.Clicked.emit(this.action)
+    }
 
-    // this.dialog = false
+    this.dialog = false
   }
 
   private handleInput(ev: InputEvent, field: string) {
@@ -130,7 +128,7 @@ export class FpjpRequestEditor {
   }
 
   render() {
-    console.log(this.request)
+    // console.log(this.request)
     return (
       <Host>
         <div class="form-container">
@@ -198,7 +196,6 @@ export class FpjpRequestEditor {
                 )}
               </md-outlined-select>
             </div>
-            
             { this.brokenEquipment && (
               <div class="input-container">
                 Opis problému *
@@ -215,6 +212,21 @@ export class FpjpRequestEditor {
               </div>
             )}
           </form>
+          { this.error !== "" &&(
+            <md-dialog class="dialog" type="alert" open={this.error !== ""}>
+              <div slot="headline">Niečo sa pokazilo 🙄</div>
+              <form id="form" slot="content" method="dialog">
+                {this.error}
+              </form>
+              <div slot="actions">
+                <md-text-button form="form" value="ok"
+                  onClick={() => this.error = ""}
+                >
+                  OK
+                </md-text-button>
+              </div>
+            </md-dialog>
+          )}
           <md-dialog class="dialog" type="confirm" open={this.dialog}>
             <div slot="headline">Potvrďte vymazanie</div>
             <form id="form" slot="content" method="dialog">

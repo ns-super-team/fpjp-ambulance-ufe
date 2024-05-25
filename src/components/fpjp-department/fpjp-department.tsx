@@ -13,7 +13,6 @@ export class FpjpDepartment {
   @Event({ eventName: "clicked"}) Clicked: EventEmitter<any>;
 
   @State() info: DepartmentInfo;
-  @State() selectedEquipment: ExtendedEquipment;
   @State() rooms: {"id": string, "name": string}[] = [];
   @State() loading = true;
   @State() error = false;
@@ -39,17 +38,26 @@ export class FpjpDepartment {
     })
   }
 
-  private setEditor(room: Room, equipment: Equipment) {
-    // this.editor = !this.editor
-    this.selectedEquipment = { 
-      "id": equipment !== null ? equipment.id : "", 
-      "name": equipment !== null ? equipment.name : "", 
-      "type": equipment !== null ? equipment.type : "", 
-      "count": equipment !== null ? equipment.count : 0, 
-      "room": { "id": room !== null ? room.id : "", "name": room !== null ? room.name : "" } 
+  private setEditor(room: Room, equipment: Equipment, editor: string) {
+    if (editor === "equipment") {
+      const selectedEquipment = { 
+        "id": equipment !== null ? equipment.id : "", 
+        "name": equipment !== null ? equipment.name : "", 
+        "type": equipment !== null ? equipment.type : "", 
+        "count": equipment !== null ? equipment.count : 0, 
+        "room": { "id": room !== null ? room.id : "", "name": room !== null ? room.name : "" } 
+      }
+      this.Clicked.emit({ path: equipment !== null ? equipment.id : "new" , eq: selectedEquipment, rooms: this.rooms })
+    } else if (editor === "request") {
+      const selectedRequest = { 
+        "id": "", 
+        "name": "", 
+        "type": "missing", 
+        "count": 0, 
+        "room": { "id": "", "name": "" } 
+      }
+      this.Clicked.emit({ path: "new", req: selectedRequest, rooms: this.rooms })
     }
-
-    this.Clicked.emit({ path: equipment !== null ? equipment.id : "new" , eq: this.selectedEquipment, rooms: this.rooms })
   }
 
   private parseRooms(dep: DepartmentInfo) {
@@ -82,7 +90,7 @@ export class FpjpDepartment {
             <h3>{room.name}</h3>
             <md-list>
             { room.equipment.map((eq: Equipment) => (
-              <md-list-item onClick={() => this.setEditor(room, eq)}>
+              <md-list-item onClick={() => this.setEditor(room, eq, "equipment")}>
                 <div slot="headline">{eq.name}</div>
                 <div slot="supporting-text">{eq.type === 'medical_equipment' ? 'medicínske vybavenie' : 'nábytok'}</div>
                 { eq.type === "medical_equipment" ?
@@ -108,13 +116,13 @@ export class FpjpDepartment {
           </md-filled-tonal-button>
           <div class="add-button-container">
             <md-filled-tonal-button class="add-request-button"
-              onClick={() => console.log('pridavam request')}
+              onClick={() => this.setEditor(null, null, "request")}
             >
               <md-icon class="icon" slot="icon">add</md-icon>
               Nová požiadavka
             </md-filled-tonal-button>
             <md-filled-tonal-button class="add-button"
-              onClick={() => this.setEditor(null, null)}
+              onClick={() => this.setEditor(null, null, "equipment")}
             >
               <md-icon class="icon" slot="icon">add</md-icon>
               Pridať vybavenie
@@ -126,13 +134,13 @@ export class FpjpDepartment {
   }
 }
 
-type ExtendedEquipment = {
-  id: string,
-  room: { id: string, name: string },
-  type: string,
-  count: number,
-  name: string,
-}
+// type ExtendedEquipment = {
+//   id: string,
+//   room: { id: string, name: string },
+//   type: string,
+//   count: number,
+//   name: string,
+// }
 
 type Equipment = {
   id: string,

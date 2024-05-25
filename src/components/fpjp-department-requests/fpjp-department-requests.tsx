@@ -16,7 +16,6 @@ export class FpjpDepartmentRequests {
   @State() rooms: {"id": string, "name": string}[] = [];
   @State() loading = true;
   @State() error = false;
-  @State() selectedRequest: any;
   
   private async getDepartmentInfo(): Promise<any> {
     return fetch(`${this.apiBase}/departments/${this.depId}/requests`)
@@ -41,7 +40,7 @@ export class FpjpDepartmentRequests {
 
   private setEditor(room: Room, request: Request) {
     // this.editor = !this.editor
-    this.selectedRequest = { 
+    const selectedRequest = { 
       "id": request !== null ? request.id : "", 
       "name": request !== null ? request.name : "", 
       "type": request !== null ? request.type : "", 
@@ -50,7 +49,7 @@ export class FpjpDepartmentRequests {
       "room": { "id": room !== null ? room.id : "", "name": room !== null ? room.name : "" } 
     }
 
-    this.Clicked.emit({ path: request !== null ? request.id : "new" , req: this.selectedRequest, rooms: this.rooms })
+    this.Clicked.emit({ path: request !== null ? request.id : "new" , req: selectedRequest, rooms: this.rooms })
   }
 
   private parseRooms(dep: DepartmentInfo) {
@@ -84,15 +83,16 @@ export class FpjpDepartmentRequests {
             <md-list>
             { room.requests.map((req: Request) => (
               <div class="request-item">
-                <md-divider/>
-                <md-list-item
+                {/* <md-divider/> */}
+                <md-list-item 
+                  class={req.type === "missing" ? "list-missing" : "list-broken"}
                   onClick={() => this.setEditor(room, req)}
                 >
                   <div slot="headline">{req.name}</div>
-                  <div slot="supporting-text">{"miesnosť: " + room.name}</div>
+                  <div slot="supporting-text">{"miestnosť: " + room.name}</div>
                   <div slot="supporting-text">{req.type === 'missing' ? `počet: ${req.count}` : `opis: ${req.description}`}</div>
                 </md-list-item>
-                <md-divider/>
+                {/* <md-divider/> */}
               </div>
             ))}
             </md-list>

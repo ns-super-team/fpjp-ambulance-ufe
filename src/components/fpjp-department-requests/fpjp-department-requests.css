@@ -1,7 +1,7 @@
 :host {
   display: block;
   --md-list-item-label-text-color: #252727;
-  --md-list-container-color: #ffffff;
+  /* --md-list-container-color: #ffffff; */
   min-width: 50%;
   max-width: 50%;
 }
@@ -12,17 +12,28 @@ h1 {
 }
 
 md-list {
-  border-radius: 6px;
   padding: 0px;
+  background-color: #ffffff;
+}
+
+.list-broken {
+  background-color: #fec6c6;
+}
+
+.list-missing {
+  background-color: #fee9ab;
 }
 
 md-list-item {
   cursor: pointer;
+  /* border: solid 1px #252727; */
+  margin-bottom: 0.3em;
+  border-radius: 6px;
 }
 
 md-list-item:hover {
   background-color: #e7f7f7;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 /* .editor-container {
