@@ -40,12 +40,12 @@ export class FpjpDepartmentOverview {
     this.departments = await this.getDepartments();
   }
 
-  private convertString(input: string): string {
-     // Remove accented characters
-     const convertedString = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-     // Replace spaces with '-'
-     return convertedString.replace(/\s+/g, '-');
-}
+//   private convertString(input: string): string {
+//      // Remove accented characters
+//      const convertedString = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+//      // Replace spaces with '-'
+//      return convertedString.replace(/\s+/g, '-');
+// }
 
   render() {
     if (this.loading) {
@@ -60,21 +60,26 @@ export class FpjpDepartmentOverview {
     
     return (
       <Host>
-        <main>
-          <h1 class="heading">Prehľad oddelení</h1>
-          <md-list>
-            { this.departments.map(department => (
-            <div>
-              <md-list-item interactive 
-                onClick={ () => this.entryClicked.emit({ path: this.convertString(department.name), id: department.id })}
+        <h1 class="heading">Prehľad oddelení</h1>
+        <md-list>
+          { this.departments.map(department => (
+          <div>
+            <md-list-item>
+              <div slot="headline">{department.name}</div>
+              <md-text-button class="navigation-buttons" slot="end"
+                onClick={ () => this.entryClicked.emit({ path: "equipment", id: department.id })}
               >
-                <div slot="headline">{department.name}</div>
-                <md-icon slot="end">chevron_right</md-icon>
-              </md-list-item>
-            </div>
-            ))}
-          </md-list>
-        </main>
+                Vybavenie
+              </md-text-button>
+              <md-text-button class="navigation-buttons" slot="end"
+                onClick={ () => this.entryClicked.emit({ path: "requests", id: department.id })}
+              >
+                Požiadavky
+              </md-text-button>
+            </md-list-item>
+          </div>
+          ))}
+        </md-list>
       </Host>
     );
   }

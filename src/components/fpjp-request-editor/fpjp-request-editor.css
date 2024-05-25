@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  /* --md-list-container-color: #c4dcf4;
+  --md-list-item-label-text-color: #252727; */
+  min-width: 40%;
+  max-width: 80%;
+  margin-top: 4em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  font-size: 1.8em;
+  font-weight: semi-bold;
+}
+
+md-list {
+  border-radius: 6px;
+  padding: 0px;
+}
+
+md-list-item {
+  cursor: pointer;
+}
+
+.equipment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.selector {
+  --md-menu-container-color: #eff1f3;
+  /* --md-outlined-select-text-field-outline-color: #4e9fef; */
+  --md-menu-container-color: #c4dcf4;
+  --md-menu-item-container-color: #c4dcf4;
+  --md-menu-item-selected-container-color: #ffff;
+}
+
+.horizontal-inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.5em
+}
+
+.text-field {
+  /* --md-sys-color-primary: #006a6a; */
+  --md-sys-color-surface-container-highest: #ffff;
+  /* --md-outlined-text-field-outline-color: #0000; */
+}
+
+.input-container-name {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em
+}
+
+.input-container-quantity {
+  width: 6em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em
+}
+
+.button-container { 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+.cd-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.back-button {
+  margin-top: 1em;
+  align-self: flex-end;
+  --md-filled-tonal-button-container-color: #91c8ff;
+}
+
+.save-button {
+  margin-top: 1em;
+  align-self: flex-end;
+  --md-filled-tonal-button-container-color: #94f7b3;
+}
+
+.delete-button {
+  margin-top: 1em;
+  align-self: flex-end;
+  --md-filled-tonal-button-container-color: #ff6161cf;
+}
+
+.dialog {
+  min-width: 25%;
+  --md-dialog-container-color: #ffff;
+}
+
+.dialog-cancel-button {
+  --md-filled-tonal-button-container-color: #91c8ff;
+}
+
+/* .dialog-delete-button {
+  --md-text-button-label-text-color:  #ff6161cf;
+} */

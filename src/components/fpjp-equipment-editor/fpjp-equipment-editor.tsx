@@ -202,6 +202,28 @@ export class FpjpEquipmentEditor {
               </div>
             </md-dialog>
           )}
+          <md-dialog class="dialog" type="confirm" open={this.dialog}>
+            <div slot="headline">Potvrďte vymazanie</div>
+            <form id="form" slot="content" method="dialog">
+              Naozaj chcete vymazať toto vybavenie?
+            </form>
+            <div slot="actions">
+              <md-text-button class="dialog-delete-button" form="form" value="delete"
+                onClick={() => {
+                  this.handleDelete()
+                }}
+              >
+                Vymazať
+              </md-text-button>
+              <md-filled-tonal-button class="dialog-cancel-button" form="form" value="cancel" autofocus
+                onClick={() => {
+                  this.dialog = false
+                }}
+              >
+                Zrušiť
+              </md-filled-tonal-button>
+            </div>
+          </md-dialog>
           <div class="button-container">
             <md-filled-tonal-button id="back" class="back-button"
               onClick={() => this.Clicked.emit("cancel")}
@@ -209,28 +231,6 @@ export class FpjpEquipmentEditor {
               <md-icon class="icon" slot="icon">arrow_back</md-icon>
               Späť
             </md-filled-tonal-button>
-            <md-dialog class="dialog" type="confirm" open={this.dialog}>
-              <div slot="headline">Potvrďte vymazanie</div>
-              <form id="form" slot="content" method="dialog">
-                Naozaj chcete vymazať toto vybavenie?
-              </form>
-              <div slot="actions">
-                <md-text-button class="dialog-delete-button" form="form" value="delete"
-                  onClick={() => {
-                    this.handleDelete()
-                  }}
-                >
-                  Vymazať
-                </md-text-button>
-                <md-filled-tonal-button class="dialog-cancel-button" form="form" value="cancel" autofocus
-                  onClick={() => {
-                    this.dialog = false
-                  }}
-                >
-                  Zrušiť
-                </md-filled-tonal-button>
-              </div>
-            </md-dialog>
             <div class="cd-button-container">
               { this.action === "update" && (
                 <md-filled-tonal-button id="deleted" class="delete-button"

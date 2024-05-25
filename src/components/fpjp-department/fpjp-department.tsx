@@ -19,8 +19,6 @@ export class FpjpDepartment {
   @State() error = false;
 
   private async getDepartmentInfo(): Promise<any> {
-    // TODO fix:
-    // - resets id when refreshed
     return fetch(`${this.apiBase}/departments/${this.depId}/equipment`)
     .then((response) => {
       if (response.ok) {
@@ -82,19 +80,19 @@ export class FpjpDepartment {
         { this.info.rooms.map(room => (
           <div>
             <h3>{room.name}</h3>
-              <md-list>
-              { room.equipment.map((eq: Equipment) => (
-                <md-list-item onClick={() => this.setEditor(room, eq)}>
-                  <div slot="headline">{eq.name}</div>
-                  <div slot="supporting-text">{eq.type === 'medical_equipment' ? 'medicínske vybavenie' : 'nábytok'}</div>
-                  { eq.type === "medical_equipment" ?
-                      <md-icon slot="start">vaccines</md-icon>
-                      :
-                      <md-icon slot="start">chair</md-icon>
-                    }
-                  <div slot="trailing-supporting-text">{"počet: " + eq.count}</div>
-                </md-list-item>
-              ))}
+            <md-list>
+            { room.equipment.map((eq: Equipment) => (
+              <md-list-item onClick={() => this.setEditor(room, eq)}>
+                <div slot="headline">{eq.name}</div>
+                <div slot="supporting-text">{eq.type === 'medical_equipment' ? 'medicínske vybavenie' : 'nábytok'}</div>
+                { eq.type === "medical_equipment" ?
+                    <md-icon slot="start">vaccines</md-icon>
+                    :
+                    <md-icon slot="start">chair</md-icon>
+                  }
+                <div slot="trailing-supporting-text">{"počet: " + eq.count}</div>
+              </md-list-item>
+            ))}
             </md-list>
             { room.equipment.length == 0 && (
               <p>Miestnosť neobsahuje žiadne vybavenie</p>

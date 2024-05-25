@@ -18,9 +18,19 @@ export namespace Components {
     interface FpjpDepartmentOverview {
         "apiBase": string;
     }
+    interface FpjpDepartmentRequests {
+        "apiBase": string;
+        "basePath": string;
+        "depId": string;
+    }
     interface FpjpEquipmentEditor {
         "apiBase": string;
         "equipment": { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
+        "rooms": {"id": string, "name": string}[];
+    }
+    interface FpjpRequestEditor {
+        "apiBase": string;
+        "request": { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; description: string; };
         "rooms": {"id": string, "name": string}[];
     }
     interface MyComponent {
@@ -46,9 +56,17 @@ export interface FpjpDepartmentOverviewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLFpjpDepartmentOverviewElement;
 }
+export interface FpjpDepartmentRequestsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFpjpDepartmentRequestsElement;
+}
 export interface FpjpEquipmentEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLFpjpEquipmentEditorElement;
+}
+export interface FpjpRequestEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFpjpRequestEditorElement;
 }
 declare global {
     interface HTMLFpjpAppElement extends Components.FpjpApp, HTMLStencilElement {
@@ -91,6 +109,23 @@ declare global {
         prototype: HTMLFpjpDepartmentOverviewElement;
         new (): HTMLFpjpDepartmentOverviewElement;
     };
+    interface HTMLFpjpDepartmentRequestsElementEventMap {
+        "clicked": any;
+    }
+    interface HTMLFpjpDepartmentRequestsElement extends Components.FpjpDepartmentRequests, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFpjpDepartmentRequestsElementEventMap>(type: K, listener: (this: HTMLFpjpDepartmentRequestsElement, ev: FpjpDepartmentRequestsCustomEvent<HTMLFpjpDepartmentRequestsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFpjpDepartmentRequestsElementEventMap>(type: K, listener: (this: HTMLFpjpDepartmentRequestsElement, ev: FpjpDepartmentRequestsCustomEvent<HTMLFpjpDepartmentRequestsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLFpjpDepartmentRequestsElement: {
+        prototype: HTMLFpjpDepartmentRequestsElement;
+        new (): HTMLFpjpDepartmentRequestsElement;
+    };
     interface HTMLFpjpEquipmentEditorElementEventMap {
         "clicked": any;
     }
@@ -108,6 +143,23 @@ declare global {
         prototype: HTMLFpjpEquipmentEditorElement;
         new (): HTMLFpjpEquipmentEditorElement;
     };
+    interface HTMLFpjpRequestEditorElementEventMap {
+        "clicked": any;
+    }
+    interface HTMLFpjpRequestEditorElement extends Components.FpjpRequestEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFpjpRequestEditorElementEventMap>(type: K, listener: (this: HTMLFpjpRequestEditorElement, ev: FpjpRequestEditorCustomEvent<HTMLFpjpRequestEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFpjpRequestEditorElementEventMap>(type: K, listener: (this: HTMLFpjpRequestEditorElement, ev: FpjpRequestEditorCustomEvent<HTMLFpjpRequestEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLFpjpRequestEditorElement: {
+        prototype: HTMLFpjpRequestEditorElement;
+        new (): HTMLFpjpRequestEditorElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -118,7 +170,9 @@ declare global {
         "fpjp-app": HTMLFpjpAppElement;
         "fpjp-department": HTMLFpjpDepartmentElement;
         "fpjp-department-overview": HTMLFpjpDepartmentOverviewElement;
+        "fpjp-department-requests": HTMLFpjpDepartmentRequestsElement;
         "fpjp-equipment-editor": HTMLFpjpEquipmentEditorElement;
+        "fpjp-request-editor": HTMLFpjpRequestEditorElement;
         "my-component": HTMLMyComponentElement;
     }
 }
@@ -137,10 +191,22 @@ declare namespace LocalJSX {
         "apiBase"?: string;
         "onEntry-clicked"?: (event: FpjpDepartmentOverviewCustomEvent<any>) => void;
     }
+    interface FpjpDepartmentRequests {
+        "apiBase"?: string;
+        "basePath"?: string;
+        "depId"?: string;
+        "onClicked"?: (event: FpjpDepartmentRequestsCustomEvent<any>) => void;
+    }
     interface FpjpEquipmentEditor {
         "apiBase"?: string;
         "equipment"?: { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; };
         "onClicked"?: (event: FpjpEquipmentEditorCustomEvent<any>) => void;
+        "rooms"?: {"id": string, "name": string}[];
+    }
+    interface FpjpRequestEditor {
+        "apiBase"?: string;
+        "onClicked"?: (event: FpjpRequestEditorCustomEvent<any>) => void;
+        "request"?: { id: string; name: string; type: string; count: number; room: { id: string; name: string; }; description: string; };
         "rooms"?: {"id": string, "name": string}[];
     }
     interface MyComponent {
@@ -161,7 +227,9 @@ declare namespace LocalJSX {
         "fpjp-app": FpjpApp;
         "fpjp-department": FpjpDepartment;
         "fpjp-department-overview": FpjpDepartmentOverview;
+        "fpjp-department-requests": FpjpDepartmentRequests;
         "fpjp-equipment-editor": FpjpEquipmentEditor;
+        "fpjp-request-editor": FpjpRequestEditor;
         "my-component": MyComponent;
     }
 }
@@ -172,7 +240,9 @@ declare module "@stencil/core" {
             "fpjp-app": LocalJSX.FpjpApp & JSXBase.HTMLAttributes<HTMLFpjpAppElement>;
             "fpjp-department": LocalJSX.FpjpDepartment & JSXBase.HTMLAttributes<HTMLFpjpDepartmentElement>;
             "fpjp-department-overview": LocalJSX.FpjpDepartmentOverview & JSXBase.HTMLAttributes<HTMLFpjpDepartmentOverviewElement>;
+            "fpjp-department-requests": LocalJSX.FpjpDepartmentRequests & JSXBase.HTMLAttributes<HTMLFpjpDepartmentRequestsElement>;
             "fpjp-equipment-editor": LocalJSX.FpjpEquipmentEditor & JSXBase.HTMLAttributes<HTMLFpjpEquipmentEditorElement>;
+            "fpjp-request-editor": LocalJSX.FpjpRequestEditor & JSXBase.HTMLAttributes<HTMLFpjpRequestEditorElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
