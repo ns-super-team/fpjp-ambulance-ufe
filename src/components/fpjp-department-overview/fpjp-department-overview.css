@@ -11,17 +11,23 @@ h1 {
 }
 
 md-list {
-  border-radius: 6px;
   padding: 0px;
+  background-color: #ffffff;
+  /* gap: 0.3em; */
 }
-/* 
+
 md-list-item {
   cursor: pointer;
-} */
+  margin-bottom: 0.3em;
+  border-radius: 6px;
+  /* background-color: #c4dcf4; */
+  background-color: #e9f4ff;
+  border: 1px solid #c4dcf4;
+}
 
 md-list-item:hover {
   background-color: #e7f7f7;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .error-msg {
@@ -34,11 +40,3 @@ md-list-item:hover {
   align-items: center;
   height: 50vh;
 }
-
-/* md-text-button {
-  --md-text-button-label-text-color: blue;
-}
-
-md-text-button:hover {
-  --md-text-button-label-text-color: blue;
-} */

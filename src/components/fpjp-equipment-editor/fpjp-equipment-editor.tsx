@@ -21,6 +21,7 @@ export class FpjpEquipmentEditor {
   private equipment_type = ["furniture", "medical_equipment"]
   private formElement: HTMLFormElement;
 
+  // handle input change
   private handleInput(ev: InputEvent, field: string) {
     const target = ev.target as HTMLInputElement;
     if (field === "count") {
@@ -30,6 +31,7 @@ export class FpjpEquipmentEditor {
     }
   }
 
+  // function for calling API
   private async apiRequest(path: string, body: any, method: string) {
     return await fetch(path, {
       method: method,
@@ -51,6 +53,7 @@ export class FpjpEquipmentEditor {
     })
   }
   
+  // create new equipment
   private async handleCreate() {
     this.checkForm()
     
@@ -67,6 +70,7 @@ export class FpjpEquipmentEditor {
     }
   }
 
+  // update existing equipment
   private async handleUpdate() {
     this.checkForm()
 
@@ -83,6 +87,7 @@ export class FpjpEquipmentEditor {
     }
   }
   
+  // delete equipment
   private async handleDelete() {
     const requestPath = `${this.apiBase}/equipment/${this.updatedEquipment.id}`
     const response = await this.apiRequest(requestPath, null, "DELETE")
@@ -95,6 +100,7 @@ export class FpjpEquipmentEditor {
     this.dialog = false
   }
 
+  // check form validity
   private checkForm() {
     const mdInputElements = this.formElement.querySelectorAll('md-outlined-select, md-outlined-text-field');
     this.valid = true

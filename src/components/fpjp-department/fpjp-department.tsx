@@ -17,6 +17,7 @@ export class FpjpDepartment {
   @State() loading = true;
   @State() error = false;
 
+  // load initial data
   private async getDepartmentInfo(): Promise<any> {
     return fetch(`${this.apiBase}/departments/${this.depId}/equipment`)
     .then((response) => {
@@ -38,6 +39,7 @@ export class FpjpDepartment {
     })
   }
 
+  // open editor for equipment or request
   private setEditor(room: Room, equipment: Equipment, editor: string) {
     if (editor === "equipment") {
       const selectedEquipment = { 

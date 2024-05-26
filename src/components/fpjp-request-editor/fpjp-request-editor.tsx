@@ -22,6 +22,7 @@ export class FpjpRequestEditor {
   private request_type = ["missing", "repair"]
   private formElement: HTMLFormElement;
 
+  // function for calling API
   private async apiRequest(path: string, body: any, method: string) {
     return await fetch(path, {
       method: method,
@@ -43,6 +44,7 @@ export class FpjpRequestEditor {
     })
   }
 
+  // create new request
   private async handleCreate() {
     this.checkForm()
     
@@ -60,6 +62,7 @@ export class FpjpRequestEditor {
     }
   }
 
+  // update existing request
   private async handleUpdate() {
     this.checkForm()
 
@@ -76,6 +79,7 @@ export class FpjpRequestEditor {
     }
   }
   
+  // delete request
   private async handleDelete() {
     const requestPath = `${this.apiBase}/requests/${this.updatedRequest.id}`
     const response = await this.apiRequest(requestPath, null, "DELETE")
@@ -88,6 +92,7 @@ export class FpjpRequestEditor {
     this.dialog = false
   }
 
+  // handle input from form
   private handleInput(ev: InputEvent, field: string) {
     const target = ev.target as HTMLInputElement;
     if (field === "count") {
@@ -97,7 +102,7 @@ export class FpjpRequestEditor {
     }
   }
 
-
+  // check form validity
   private checkForm() {
     const mdInputElements = this.formElement.querySelectorAll('md-outlined-select, md-outlined-text-field');
     this.valid = true

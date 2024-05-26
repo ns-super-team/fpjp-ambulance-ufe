@@ -19,6 +19,7 @@ export class FpjpDepartmentRequests {
   @State() error = false;
   @State() errorMsg = "";
   
+  // load initial data
   private async getDepartmentInfo(): Promise<any> {
     return fetch(`${this.apiBase}/departments/${this.depId}/requests`)
     .then((response) => {
@@ -40,6 +41,7 @@ export class FpjpDepartmentRequests {
     })
   }
 
+  // open editor for request
   private setEditor(room: Room, request: Request) {
     const selectedRequest = { 
       "id": request !== null ? request.id : "", 
