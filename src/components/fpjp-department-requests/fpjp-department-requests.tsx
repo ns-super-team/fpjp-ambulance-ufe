@@ -196,7 +196,7 @@ export class FpjpDepartmentRequests {
 
 type Request = {
   id: string,
-  room_id: string,
+  room: string,
   type: string,
   name: string,
   count: number | null,

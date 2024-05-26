@@ -41,6 +41,7 @@ export class FpjpEquipmentEditor {
       body: JSON.stringify(body),
     })
     .then((response) => {
+      console.log(response.status, response.statusText)
       if (response.ok) {
         if (response.status !== 204) return response.json();
       } else {
@@ -58,7 +59,7 @@ export class FpjpEquipmentEditor {
     this.checkForm()
     
     if (this.valid) {
-      const requestPath = `${this.apiBase}/rooms/${this.updatedEquipment.room_id}/equipment`
+      const requestPath = `${this.apiBase}/rooms/${this.updatedEquipment.room}/equipment`
       const response = await this.apiRequest(requestPath, this.updatedEquipment, "POST")
       
       if (this.error === "") {
@@ -115,7 +116,7 @@ export class FpjpEquipmentEditor {
   async componentWillLoad() {
     this.updatedEquipment = {
       id: this.equipment.id,
-      room_id: this.equipment.room.id,
+      room: this.equipment.room.id,
       type: this.equipment.type,
       name: this.equipment.name,
       count: this.equipment.count
@@ -180,7 +181,7 @@ export class FpjpEquipmentEditor {
               Miestnosť *
               <md-outlined-select required class="selector"
                 onChange={(ev: InputEvent) => {
-                  this.handleInput(ev, "room_id")
+                  this.handleInput(ev, "room")
                 }}
               >
                 { this.rooms.map(room =>

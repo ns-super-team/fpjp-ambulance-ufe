@@ -143,7 +143,7 @@ export class FpjpDepartment {
 
 type Equipment = {
   id: string,
-  room_id: string,
+  room: string,
   type: string,
   count: number,
   name: string,

@@ -50,7 +50,7 @@ export class FpjpRequestEditor {
     
     if (this.valid) {
       // console.log(this.updatedRequest)
-      const requestPath = `${this.apiBase}/rooms/${this.updatedRequest.room_id}/requests`
+      const requestPath = `${this.apiBase}/rooms/${this.updatedRequest.room}/requests`
       const response = await this.apiRequest(requestPath, this.updatedRequest, "POST")
       
       if (this.error === "") {
@@ -117,7 +117,7 @@ export class FpjpRequestEditor {
   async componentWillLoad() {
     this.updatedRequest = {
       id: this.request.id,
-      room_id: this.request.room.id,
+      room: this.request.room.id,
       type: this.request.type,
       name: this.request.name,
       count: this.request.count || null,
@@ -191,7 +191,7 @@ export class FpjpRequestEditor {
               <md-outlined-select required class="selector"
                 disabled={this.action === "update"}
                 onChange={(ev: InputEvent) => {
-                  this.handleInput(ev, "room_id")
+                  this.handleInput(ev, "room")
                 }}
               >
                 { this.rooms.map(room =>
